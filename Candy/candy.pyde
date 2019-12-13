@@ -76,9 +76,6 @@ class Grids:
                     vertex(c*Length + Length, r*Width + Width//2)
                     vertex(c*Length + Length//2, r*Width + Width)
                     endShape()
-                    # fill(249, 166, 2)
-                    # noStroke()
-                    # circle(c*Length + Length//2, r*Width + Width//2, CIRCUM)
 
 class Body:
     def __init__(self, r, c, xspeed, yspeed, frames):
@@ -465,12 +462,6 @@ def setup():
     
 def draw():
     background(255)
-    # if game.b.sound != False and int(game.b.Rotation_timer) > 0:
-    # if game.b.sound == True:
-    #     file = SoundFile(this, "screaming.mp3")
-    #     file.play()
-    # elif game.b.Rotation_timer == 0:
-    #     game.b.sound = False
     game.show()
 
     

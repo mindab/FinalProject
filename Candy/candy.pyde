@@ -1,8 +1,4 @@
-add_library('sound')
-# add_library('minim')
 import random
-
-
 
 
 RESOLUTIONX= 1125
@@ -13,7 +9,7 @@ Length = RESOLUTIONX//NUM_COLS
 Width = RESOLUTIONY//NUM_ROWS
 CIRCUM = 20
 board = []
-GAME_TIME_ALLOWED = 50 #seconds
+GAME_TIME_ALLOWED = 300 #seconds
 FINAL_TIME = 0
 
 
@@ -246,15 +242,7 @@ class Body:
                             
                             
                     
-           
-        
-                             
-                        
-                   
-                    
-    
-         
-                    
+                
                                
 class Timer:
     def __init__(self):
@@ -282,9 +270,9 @@ class Timer:
             text("00", 1310, 70)
                 
                 
-                #Incrementing time
-        # while True
-        
+                
+   
+        #Decrementing time
         if game.b.start == True:
             self.total_time_taken += 1/frameRate
             self.time -= 1/frameRate
@@ -335,10 +323,6 @@ class GameFunctionalities:
         self.over_box=False
         self.over_box2=False
         
-    def setting(self):
-        pass
-    def timer(self):
-        pass
     # Displays the instruction
     def instructions(self):
         stroke(0, 140, 0)
@@ -394,13 +378,8 @@ class Game:
         
 
     def show(self):
-        
-        # self.time.countUp()
         self.time.countDown()
-            
-        
         self.g.elements()
-        
         self.b.show_opponent()
         self.g.show_maze()
         self.g.show_maze2()
@@ -408,7 +387,7 @@ class Game:
         self.g.show_candy()
         
         if self.b.start ==True:
-            # self.b.Rotate()
+            self.b.Rotate()
             self.b.move()
         if self.time.time <= 0:
             game.b.start = False
@@ -440,20 +419,11 @@ class Game:
 
 
 game = Game()
-# file = SoundFile(this, "old_town.mp3")
-# musicPlaying = False
-
 def setup():
     size(2000,625)
 
 def draw():
-    # global file,musicPlaying
     background(255)
-    # if game.b.start and (not musicPlaying or game.time.total_time_taken%123==0):
-    #     file.play()
-    #     musicPlaying = True
-    # if game.b.start == False:
-    #     file.stop()
     game.show()
 
     

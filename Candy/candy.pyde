@@ -1,4 +1,5 @@
 add_library('sound')
+# add_library('minim')
 import random
 
 
@@ -12,12 +13,10 @@ Length = RESOLUTIONX//NUM_COLS
 Width = RESOLUTIONY//NUM_ROWS
 CIRCUM = 20
 board = []
-GAME_TIME_ALLOWED = 5 #seconds
+GAME_TIME_ALLOWED = 50 #seconds
+FINAL_TIME = 0
 
 
-# TOTAL_TIME_TAKEN = 0
-# TOTAL_TIME_TAKEN += 1/frameRate
-# # print(int(TOTAL_TIME_TAKEN))
 
 
 
@@ -83,9 +82,6 @@ class Grids:
                     vertex(c*Length + Length, r*Width + Width//2)
                     vertex(c*Length + Length//2, r*Width + Width)
                     endShape()
-                    # fill(249, 166, 2)
-                    # noStroke()
-                    # circle(c*Length + Length//2, r*Width + Width//2, CIRCUM)
 
 
 
@@ -117,9 +113,7 @@ class Body:
     def show_body(self):
         
         fill(0, 128, 255)
-        #strokeWeight(3)
         noStroke()
-        # circle(self.c*Length+Length//2, self.r*Width+Width//2, 20)
         circle((self.c*Length) + Length//2, (self.r*Width) + Width//2, CIRCUM)
     def show_candy(self):
         for r in range(NUM_ROWS):
@@ -136,8 +130,7 @@ class Body:
                     fill(0,140,0)
                     noStroke()
                     circle(c*Length+Length/2, r*Width+Width/2,CIRCUM)
-    # Controls the movement of the player
-    def move(self):
+    def move(self): # Controls the movement of the player
         for i in range(NUM_ROWS):
             for j in range(NUM_COLS):
                 if board[i][j]=="1":
@@ -177,7 +170,7 @@ class Body:
 
      # Checks if player have found the candy   
     def collision(self):
-        global TOTAL_TIME_TAKEN
+        global FINAL_TIME
         if self.r ==21 and self.c ==4:
             self.start = False
             background(0)
@@ -189,13 +182,13 @@ class Body:
             text("Time taken:",  600, 350)
             fill(255, 255, 255)
             textSize(30)
-            text(TOTAL_TIME_TAKEN,  800, 350)
+            text(str(int(FINAL_TIME)) + " seconds",  800, 350)
             fill(255, 255, 255)
             textSize(30)
-            text('Click reset and start to play again',  600, 400)
+            text('Click reset then click start to play again',  500, 400)
                 
                 
-    # Shows and rotates the laser: Basically causing a slowdon in the game
+    # Shows and rotates the laser: Basically causing a slowdown in the game
     def Rotate(self):
         for r in range(NUM_ROWS):
             for c in range(NUM_COLS):
@@ -229,13 +222,6 @@ class Body:
                         
                     
                         # The conditions below are detecting collision b/n the player and the lasers
-                        
-                        if current_r == self.r and current_c == self.c:
-                            self.Rotation_timer -= 1/frameRate
-                            self.sound = True
-                        
-                        # if current_r != self.r and current_c != self.c:
-                        #     self.sound = False
                         if current_r == self.r and current_c == self.c and self.r < 12 and self.c < 18 and self.r !=2 and self.c !=2:
                             self.r = 10
                             self.c = 9
@@ -276,8 +262,8 @@ class Timer:
         self.total_time_taken = 0
         
     def countDown(self):
-        global TOTAL_TIME_GIVEN
-        global TOTAL_TIME_TAKEN
+        global FINAL_TIME
+
         
         
         background(255)
@@ -302,6 +288,8 @@ class Timer:
         if game.b.start == True:
             self.total_time_taken += 1/frameRate
             self.time -= 1/frameRate
+            FINAL_TIME = self.total_time_taken
+        
         
             
         self.t = [self.time, ":", int(self.time/60)] # keeping it in a list in the form (minutes:secondes)
@@ -337,37 +325,9 @@ class Timer:
         if game.b.reset == True:
             self.time = GAME_TIME_ALLOWED 
             
-        # if self.time <= 0:
-        #     background(0)
-        #     fill(255,255,255)
-        #     textSize(20)
-        #     text("Time Over", 500, 300)
-        #     # game.b.reset = True
-        
-        # text(":", 1303, 70)
-            
-        #     fill(0)
-        #     text(":", 1303, 70)
-        #     text("00", 1267, 70)
-        #     text("00", 1310, 70)
-        #     game.b.reset = True
-        # if game.b.reset == True and self.total_time < 60:
-        #     fill(0)
-        #     text(self.total_time, 1267, 70)
-            
-            
-        
-        
-        
-            
     
-                
-                    
-
-        
             
-
-        
+                
                     
 class GameFunctionalities:
     #Initializing
@@ -432,11 +392,7 @@ class Game:
         self.b = Body(2, 2, 0, 1000,700)
         self.time = Timer()
         
-        
 
-        
-        
-        
     def show(self):
         
         # self.time.countUp()
@@ -452,7 +408,7 @@ class Game:
         self.g.show_candy()
         
         if self.b.start ==True:
-            self.b.Rotate()
+            # self.b.Rotate()
             self.b.move()
         if self.time.time <= 0:
             game.b.start = False
@@ -480,31 +436,24 @@ class Game:
             
         
         
-# file = SoundFile(this, "water.mp3")
-# file.play()
 
 
-# t = Timer()
+
 game = Game()
-
-# while True:
-#     if game.b.start == True:
-#         file = SoundFile(this, "water.mp3")
-#         file.play()
-#     if game.b.reset == True:
-#         break
+# file = SoundFile(this, "old_town.mp3")
+# musicPlaying = False
 
 def setup():
     size(2000,625)
-    
 
-    
 def draw():
+    # global file,musicPlaying
     background(255)
-    # if game.b.start == True:
-    #     file = SoundFile(this, "water.mp3")
+    # if game.b.start and (not musicPlaying or game.time.total_time_taken%123==0):
     #     file.play()
-    
+    #     musicPlaying = True
+    # if game.b.start == False:
+    #     file.stop()
     game.show()
 
     
